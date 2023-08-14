@@ -58,7 +58,7 @@ export const getActiveContests = ({
 
 export const getContestById = data =>
   http.get('getContestById', {
-    headers: {
+    params: {
       contestId: data.contestId,
     },
   });

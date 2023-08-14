@@ -5,6 +5,7 @@ const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants');
+const { query } = require('express');
 
 module.exports.dataForContest = async (req, res, next) => {
   const response = {};
@@ -35,9 +36,11 @@ module.exports.dataForContest = async (req, res, next) => {
 };
 
 module.exports.getContestById = async (req, res, next) => {
+  const {query:{contestId}} =req
   try {
     let contestInfo = await db.Contests.findOne({
-      where: { id: req.headers.contestid },
+      
+      where: { id: contestId },
       order: [
         [db.Offers, 'id', 'asc'],
       ],
@@ -247,10 +250,8 @@ module.exports.getCustomersContests = (req, res, next) => {
 
 module.exports.getContests = (req, res, next) => {
   const { body: { typeIndex, contestId, industry, awardSort, limit, offset, ownEntries } } = req
-  console.log(typeIndex, contestId, industry, awardSort, limit,"LIMIT", offset, ownEntries)
   const predicates = UtilFunctions.createWhereForAllContests(typeIndex,
     contestId, industry, awardSort);
-  console.log( "predicates",predicates, "predicates")
   db.Contests.findAll({
     where: predicates.where,
     order: predicates.order,
@@ -272,7 +273,6 @@ module.exports.getContests = (req, res, next) => {
       if (contests.length === 0) {
         haveMore = false;
       }
-      console.log(contests, "contests")
       res.send({ contests, haveMore });
     })
     .catch(err => {
