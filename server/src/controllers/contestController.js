@@ -214,10 +214,14 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 module.exports.getCustomersContests = (req, res, next) => {
+  const { headers, query } = req;
+  const { status } = headers;
+  const { limit, offset } = query;
+
   db.Contests.findAll({
-    where: { status: req.headers.status, userId: req.tokenData.userId },
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
+    where: { status, userId: req.tokenData.userId },
+    limit: limit || 10, // Provide a default limit if not provided
+    offset: offset || 0,
     order: [['id', 'DESC']],
     include: [
       {
@@ -229,7 +233,8 @@ module.exports.getCustomersContests = (req, res, next) => {
   })
     .then(contests => {
       contests.forEach(
-        contest => contest.dataValues.count = contest.dataValues.Offers.length);
+        contest => (contest.dataValues.count = contest.dataValues.Offers.length)
+      );
       let haveMore = true;
       if (contests.length === 0) {
         haveMore = false;
@@ -238,6 +243,7 @@ module.exports.getCustomersContests = (req, res, next) => {
     })
     .catch(err => next(new ServerError(err)));
 };
+
 
 module.exports.getContests = (req, res, next) => {
   const { body: { typeIndex, contestId, industry, awardSort, limit, offset, ownEntries } } = req
