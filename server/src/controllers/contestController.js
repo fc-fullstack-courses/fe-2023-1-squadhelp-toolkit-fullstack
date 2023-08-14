@@ -36,10 +36,10 @@ module.exports.dataForContest = async (req, res, next) => {
 };
 
 module.exports.getContestById = async (req, res, next) => {
-  const {query:{contestId}} =req
+  const { query: { contestId } } = req
   try {
     let contestInfo = await db.Contests.findOne({
-      
+
       where: { id: contestId },
       order: [
         [db.Offers, 'id', 'asc'],
@@ -106,12 +106,12 @@ module.exports.downloadFile = async (req, res, next) => {
 };
 
 module.exports.updateContest = async (req, res, next) => {
-  if (req.file) {
-    req.body.fileName = req.file.filename;
-    req.body.originalFileName = req.file.originalname;
+  const { file, body: { fileName, originalFileName, contestId } } = req;
+  if (file) {
+    fileName = file.filename;
+    originalFileName = file.originalname;
   }
-  const contestId = req.body.contestId;
-  delete req.body.contestId;
+
   try {
     const updatedContest = await contestQueries.updateContest(req.body, {
       id: contestId,

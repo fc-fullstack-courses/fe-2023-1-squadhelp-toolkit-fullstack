@@ -69,7 +69,7 @@ router.get(
   contestController.downloadFile,
 );
 
-router.post(
+router.put(
   '/updateContest',
   checkToken.checkToken,
   upload.updateContestFile,
