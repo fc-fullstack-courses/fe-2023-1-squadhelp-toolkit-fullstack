@@ -6,7 +6,10 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const contestRouter = require('./contestRouter');
 const router = express.Router();
+
+router.use('/contests', checkToken.checkToken, contestRouter);
 
 router.post(
   '/registration',
