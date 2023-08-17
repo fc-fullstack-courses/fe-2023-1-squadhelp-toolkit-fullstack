@@ -40,13 +40,6 @@ router.post(
 );
 
 router.post(
-  '/getAllContests',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForCreative,
-  contestController.getContests,
-);
-
-router.post(
   '/getUser',
   checkToken.checkAuth,
 );

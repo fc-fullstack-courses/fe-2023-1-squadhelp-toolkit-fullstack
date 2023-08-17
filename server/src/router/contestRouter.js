@@ -8,6 +8,12 @@ contestRouter.get(
   contestController.getCustomersContests,
 );
 
+contestRouter.get(
+  '/all',
+  basicMiddlewares.onlyForCreative,
+  contestController.getContests,
+);
+
 contestRouter.put(
   '/:contestId',
   upload.updateContestFile,
