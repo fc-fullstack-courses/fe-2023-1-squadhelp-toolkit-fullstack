@@ -26,12 +26,13 @@ export const removeChatFromCatalog = data =>
   http.post('removeChatFromCatalog', data);
 export const changeCatalogName = data => http.post('updateNameCatalog', data);
 export const getCustomersContests = data =>
-  http.post(
-    'getCustomersContests',
-    { limit: data.limit, offset: data.offset },
+  http.get(
+    'contests/customers',
     {
-      headers: {
+      params: {
         status: data.contestStatus,
+        limit: data.limit, 
+        offset: data.offset
       },
     }
   );

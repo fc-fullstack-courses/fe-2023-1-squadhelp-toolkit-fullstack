@@ -3,6 +3,11 @@ const upload = require('../utils/fileUpload');
 const contestController = require('../controllers/contestController');
 const basicMiddlewares = require('../middlewares/basicMiddlewares');
 
+contestRouter.get(
+  '/customers',
+  contestController.getCustomersContests,
+);
+
 contestRouter.put(
   '/:contestId',
   upload.updateContestFile,
