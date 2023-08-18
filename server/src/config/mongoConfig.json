@@ -8,5 +8,10 @@
     "database": "shm-chat",
     "host": "localhost",
     "port": 27017
+  },
+  "test": {
+    "database": "shm-chat",
+    "host": "localhost",
+    "port": 27017
   }
 }
