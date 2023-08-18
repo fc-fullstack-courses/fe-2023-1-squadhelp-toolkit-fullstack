@@ -31,7 +31,7 @@ module.exports.registration = async (req, res, next) => {
 
     const accessToken = await AuthService.createSession(newUser);
 
-    res.send({ token: accessToken });
+    res.status(201).send({ token: accessToken });
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       next(new NotUniqueEmail());
